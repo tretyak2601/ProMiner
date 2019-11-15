@@ -14,6 +14,7 @@ namespace TRGames.ProMiner.Gameplay
         [SerializeField] InputController input;
 
         Vector2 force;
+        bool enable = true;
 
         private void Awake()
         {
@@ -43,21 +44,29 @@ namespace TRGames.ProMiner.Gameplay
                 else if (g.GroundType == GroundType.Rock && g.HitCount == 3)
                     Destroy(g.gameObject);
 
-                Vector3 force = rigid.velocity * -1;
-                force.x = force.x < 0 ? -jumpStrenght : jumpStrenght;
-                force.y = force.y < 0 ? -jumpStrenght : jumpStrenght;
-
-                rigid.velocity = Vector2.zero;
-                rigid.AddForce(force);
+                if (enable)
+                {
+                    rigid.velocity = Vector2.zero;
+                    Vector2 direction = transform.position - collision.gameObject.transform.position;
+                    rigid.AddForce(direction * jumpStrenght, ForceMode2D.Force);
+                    enable = false;
+                    StartCoroutine(Wait());
+                }
             }
+        }
+
+        IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(0.1f);
+            enable = true;
         }
 
         IEnumerator ForceMovement()
         {
             while (true)
             {
-                rigid.AddForce(force);
-                yield return new WaitForSeconds(0.25f);
+                rigid.AddForce(force, ForceMode2D.Impulse);
+                yield return new WaitForSeconds(Mathf.PI / 10);
             }
         }
     }

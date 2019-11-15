@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7439a7f974a59f946ab33630af669c6b, type: 3}
   m_Name: GroundSprites
   m_EditorClassIdentifier: 
+  groundColors:
+  - serializedVersion: 2
+    rgba: 13726550
+  - serializedVersion: 2
+    rgba: 748564
+  - serializedVersion: 2
+    rgba: 1136794
+  - serializedVersion: 2
+    rgba: 5614287
+  - serializedVersion: 2
+    rgba: 7156105
   defaultSprite: {fileID: 21300000, guid: e3f39e45599abf242a32f232dc176614, type: 3}
   rockSprite: {fileID: 21300000, guid: b56d86754b8f8fa49b60e207dd604d99, type: 3}
   claySprite: {fileID: 21300000, guid: 7243f9436c2052e46a8e539379f77e73, type: 3}

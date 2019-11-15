@@ -8,9 +8,11 @@ namespace TRGames.ProMiner.Gameplay
 {
     public class Ground : MonoBehaviour
     {
+        [SerializeField] ParticleSystem destroyParticles;
         [SerializeField] SpriteRenderer sprite;
         [SerializeField] GroundSprite sprites;
         [SerializeField] LomData lom;
+        [SerializeField] Collider2D coll;
 
         public LomData Lom { get { return lom; } }
         public GroundType GroundType { get; private set; }
@@ -34,37 +36,26 @@ namespace TRGames.ProMiner.Gameplay
             }
         }
 
-        public void Init(int downPosition, int height)
+        public void Init(int downPosition, Color32 color)
         {
             GroundType type = GroundType.Default;
 
-            int rand = Random.Range(0, 15);
+            int rand = Random.Range(0, 50);
 
-            if (rand == 9 && downPosition != 0)
+            if (rand == 1 && downPosition != 0)
                 type = GroundType.Rock;
-            else
-            {
-                float r = height / (Enum.GetNames(type.GetType()).Length - 1);
-
-                int defaultChance = downPosition <= r ? 99 : Mathf.RoundToInt(downPosition / 0.8f);
-                int sandChance = Mathf.RoundToInt(downPosition / 1.6f);
-                int clayChance = Mathf.RoundToInt(downPosition / 2.4f);
-
-                int chance = MinChance(defaultChance) + MinChance(sandChance) + MinChance(clayChance);
-                int random = Random.Range(0, chance + 1);
-
-                if (random >= 0 && random < MinChance(defaultChance))
-                    type = GroundType.Default;
-                else if (random >= MinChance(defaultChance) && random < MinChance(defaultChance) + MinChance(sandChance))
-                    type = GroundType.Sand;
-                else if (random >= MinChance(defaultChance) + MinChance(sandChance) && random < MinChance(defaultChance) + MinChance(sandChance) + MinChance(clayChance))
-                    type = GroundType.Clay;
-            }
+            if (rand == 2 && downPosition != 0)
+                type = GroundType.Sand;
+            if (rand == 3 && downPosition != 0)
+                type = GroundType.Clay;
+            if ((rand == 0 || rand == 5) && downPosition != 0)
+                gameObject.SetActive(false);
 
             switch (type)
             {
                 case GroundType.Default:
                     sprite.sprite = sprites.DefaultSprite;
+                    sprite.color = color;
                     break;
                 case GroundType.Sand:
                     sprite.sprite = sprites.SandSprite;
@@ -79,13 +70,23 @@ namespace TRGames.ProMiner.Gameplay
 
             GroundType = type;
         }
-
-        private int MinChance(int chance)
+        
+        private void OnBecameVisible()
         {
-            if (chance > 100)
-                chance = 100 - (chance - Mathf.CeilToInt(chance / 100) * 100);
+            coll.enabled = true;
+        }
 
-            return chance;
+        private void OnBecameInvisible()
+        {
+            coll.enabled = false;
+        }
+
+        private void OnDestroy()
+        {
+            var part = Instantiate(destroyParticles, transform.position, Quaternion.identity);
+            var main = part.main;
+            main.startColor = sprite.color;
+            Handheld.Vibrate();
         }
     }
 }

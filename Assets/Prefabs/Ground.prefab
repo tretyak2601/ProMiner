@@ -93,9 +93,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8673f3e5064f2429f7279cecdf1682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyParticles: {fileID: 449211891143782110, guid: 0015a552393059a448d3f98395146b61,
+    type: 3}
   sprite: {fileID: 1758455570297768989}
   sprites: {fileID: 11400000, guid: c7bc8ce71d43dcf478f0ebe0cef2389a, type: 2}
   lom: {fileID: 11400000, guid: 8f2713fb09c28ec418a859cf4822fd35, type: 2}
+  coll: {fileID: 3006773206895597761}
 --- !u!61 &3006773206895597761
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -103,7 +106,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758455570297768986}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
