@@ -86,7 +86,6 @@ namespace TRGames.ProMiner.Gameplay
             var part = Instantiate(destroyParticles, transform.position, Quaternion.identity);
             var main = part.main;
             main.startColor = sprite.color;
-            Handheld.Vibrate();
         }
     }
 }

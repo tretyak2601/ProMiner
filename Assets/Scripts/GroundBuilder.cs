@@ -59,7 +59,7 @@ namespace TRGames.ProMiner.Gameplay
             transform.position -= Vector3.right * center;
 
             topGrounds.ForEach(g => g.gameObject.isStatic = true);
-            UnityEditor.StaticOcclusionCulling.GenerateInBackground();
+            //UnityEditor.StaticOcclusionCulling.GenerateInBackground();
             yield return null;
         }
 

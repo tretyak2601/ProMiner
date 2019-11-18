@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace TRGames.ProMiner.Gameplay
 {
@@ -19,13 +20,31 @@ namespace TRGames.ProMiner.Gameplay
         private void Awake()
         {
             input.OnDragEvent += DragHandler;
-            input.OnDragUp += () => force = Vector2.zero;
+            input.OnDragUp += () =>
+            {
+                force = Vector2.zero;
+                rigid.mass = 1;
+            };
             StartCoroutine(ForceMovement());
         }
 
         private void DragHandler(Vector2 obj)
         {
+            rigid.mass = 0.7f;
             force = new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f) * dragStrenght;
+
+//            if (obj.y < 0.5f)
+//                rigid.MoveRotation(-Vector2.Angle(Vector2.right,
+//                                       new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45);
+//            else
+//                rigid.MoveRotation(Vector2.Angle(Vector2.right,
+//                                       new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45);
+            if (obj.y < 0.5f)
+                rigid.DORotate(-Vector2.Angle(Vector2.right,
+                                   new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45, 1);
+            else
+                rigid.DORotate(Vector2.Angle(Vector2.right,
+                                   new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45, 1);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -34,6 +53,8 @@ namespace TRGames.ProMiner.Gameplay
             {
                 var g = collision.gameObject.GetComponent<Ground>();
                 g.HitCount++;
+
+                g.transform.DOScale(0.15f, 0.1f).OnComplete(() => g.transform.DOScale(0.1f, 0.1f));
 
                 if (g.GroundType == GroundType.Default && g.HitCount == 2)
                     Destroy(g.gameObject);
