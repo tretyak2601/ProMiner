@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -16,6 +17,8 @@ namespace TRGames.ProMiner.Gameplay
 
         Vector2 force;
         bool enable = true;
+
+        public event Action<GroundType> OnCubeDestroyed; 
 
         private void Awake()
         {
@@ -41,10 +44,10 @@ namespace TRGames.ProMiner.Gameplay
 //                                       new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45);
             if (obj.y < 0.5f)
                 rigid.DORotate(-Vector2.Angle(Vector2.right,
-                                   new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45, 1);
+                                   new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45, 0.5f);
             else
                 rigid.DORotate(Vector2.Angle(Vector2.right,
-                                   new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45, 1);
+                                   new Vector2(Mathf.Abs(obj.x) - 0.5f, Mathf.Abs(obj.y) - 0.5f)) - 45, 0.5f);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -57,13 +60,25 @@ namespace TRGames.ProMiner.Gameplay
                 g.transform.DOScale(0.15f, 0.1f).OnComplete(() => g.transform.DOScale(0.1f, 0.1f));
 
                 if (g.GroundType == GroundType.Default && g.HitCount == 2)
+                {
+                    OnCubeDestroyed?.Invoke(g.GroundType);
                     Destroy(g.gameObject);
+                }
                 else if (g.GroundType == GroundType.Sand && g.HitCount == 1)
+                {
+                    OnCubeDestroyed?.Invoke(g.GroundType);
                     Destroy(g.gameObject);
+                }
                 else if (g.GroundType == GroundType.Clay && g.HitCount == 2)
+                {
+                    OnCubeDestroyed?.Invoke(g.GroundType);
                     Destroy(g.gameObject);
+                }
                 else if (g.GroundType == GroundType.Rock && g.HitCount == 3)
+                {
+                    OnCubeDestroyed?.Invoke(g.GroundType);
                     Destroy(g.gameObject);
+                }
 
                 if (enable)
                 {

@@ -1,12 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
+using Random = UnityEngine.Random;
 
 namespace TRGames.ProMiner.Gameplay
 {
     public class GroundBuilder : MonoBehaviour
     {
+        [SerializeField] private PickAxe axe;
         [SerializeField] GameObject topGroundPrefab;
         [SerializeField] Ground groundPrefab;
         [SerializeField] Color32[] groundColors;

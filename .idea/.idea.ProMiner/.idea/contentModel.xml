@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\1\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\1\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ProMiner.-1359790098.00" t="ExcludeRecursive" />
-    <e p="C:\Users\1\Documents\ProMiner" t="IncludeRecursive">
+    <e p="C:\Users\trety\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\trety\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ProMiner.-525362903.00" t="ExcludeRecursive" />
+    <e p="C:\Users\trety\Documents\ProMiner" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Demigiant" t="Include">
@@ -22,11 +22,14 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="CameraControll.cs" t="Include" />
+          <e p="Destroyer.cs" t="Include" />
           <e p="Ground.cs" t="Include" />
           <e p="GroundBuilder.cs" t="Include" />
           <e p="GroundSprite.cs" t="Include" />
           <e p="InputController.cs" t="Include" />
           <e p="LomData.cs" t="Include" />
+          <e p="MapController.cs" t="Include" />
+          <e p="MoneyController.cs" t="Include" />
           <e p="PickAxe.cs" t="Include" />
         </e>
       </e>
