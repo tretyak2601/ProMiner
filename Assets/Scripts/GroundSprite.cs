@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace TRGames.ProMiner.Gameplay
@@ -20,9 +21,13 @@ namespace TRGames.ProMiner.Gameplay
 
     public enum GroundType
     {
+        [Description("Default")]
         Default,
+        [Description("Rock")]
         Rock,
+        [Description("Clay")]
         Clay,
+        [Description("Sand")]
         Sand
     }
 }

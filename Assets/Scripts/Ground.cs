@@ -16,6 +16,11 @@ namespace TRGames.ProMiner.Gameplay
 
         public LomData Lom { get { return lom; } }
         public GroundType GroundType { get; private set; }
+        public KeyValuePair<int, (Ground, Vector3)> listIndex { get; private set; }
+        public Color Color { get; private set; }
+        public int DownPos { get; private set; }
+
+        private GroundBuilder gb;
 
         int hitCount = default;
         public int HitCount
@@ -36,8 +41,11 @@ namespace TRGames.ProMiner.Gameplay
             }
         }
 
-        public void Init(int downPosition, Color32 color)
+        public void Init(int downPosition, Color32 color, int index, GroundBuilder gb)
         {
+            DownPos = downPosition;
+            this.gb = gb;
+            Color = color;
             GroundType type = GroundType.Default;
 
             int rand = Random.Range(0, 50);
@@ -69,8 +77,9 @@ namespace TRGames.ProMiner.Gameplay
             }
 
             GroundType = type;
+            listIndex = new KeyValuePair<int, (Ground, Vector3)>(index, (this, this.transform.position));
         }
-        
+
         private void OnBecameVisible()
         {
             coll.enabled = true;
@@ -81,11 +90,14 @@ namespace TRGames.ProMiner.Gameplay
             coll.enabled = false;
         }
 
-        private void OnDestroy()
+        public void Destroy()
         {
             var part = Instantiate(destroyParticles, transform.position, Quaternion.identity);
             var main = part.main;
             main.startColor = sprite.color;
+            gb.Grounds.Remove(listIndex);
+
+            GameObject.Destroy(this.gameObject);
         }
     }
 }
