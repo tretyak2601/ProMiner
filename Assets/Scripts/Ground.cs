@@ -18,7 +18,6 @@ namespace TRGames.ProMiner.Gameplay
         public GroundType GroundType { get; private set; }
         public KeyValuePair<int, (Ground, Vector3)> listIndex { get; private set; }
         public Color Color { get; private set; }
-        public int DownPos { get; private set; }
 
         private GroundBuilder gb;
 
@@ -41,22 +40,21 @@ namespace TRGames.ProMiner.Gameplay
             }
         }
 
-        public void Init(int downPosition, Color32 color, int index, GroundBuilder gb)
+        public void Init(Color32 color, GroundBuilder gb)
         {
-            DownPos = downPosition;
             this.gb = gb;
             Color = color;
             GroundType type = GroundType.Default;
 
             int rand = Random.Range(0, 50);
 
-            if (rand == 1 && downPosition != 0)
+            if (rand == 1)
                 type = GroundType.Rock;
-            if (rand == 2 && downPosition != 0)
+            if (rand == 2)
                 type = GroundType.Sand;
-            if (rand == 3 && downPosition != 0)
+            if (rand == 3)
                 type = GroundType.Clay;
-            if ((rand == 0 || rand == 5) && downPosition != 0)
+            if ((rand == 0 || rand == 5))
                 gameObject.SetActive(false);
 
             switch (type)
@@ -77,7 +75,7 @@ namespace TRGames.ProMiner.Gameplay
             }
 
             GroundType = type;
-            listIndex = new KeyValuePair<int, (Ground, Vector3)>(index, (this, this.transform.position));
+            listIndex = new KeyValuePair<int, (Ground, Vector3)>(0, (this, this.transform.position));
         }
 
         private void OnBecameVisible()
@@ -98,6 +96,11 @@ namespace TRGames.ProMiner.Gameplay
             gb.Grounds.Remove(listIndex);
 
             GameObject.Destroy(this.gameObject);
+        }
+
+        public override string ToString()
+        {
+            return "Position: " + transform.position + "\n" + " Color: " + Color;
         }
     }
 }

@@ -70,6 +70,7 @@
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Scripts\BottomPanel.cs" />
     <Compile Include="Assets\Scripts\CameraControll.cs" />
     <Compile Include="Assets\Scripts\Destroyer.cs" />
     <Compile Include="Assets\Scripts\Ground.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Assets\Scripts\LoadingManager.cs" />
     <Compile Include="Assets\Scripts\LomData.cs" />
     <Compile Include="Assets\Scripts\MapController.cs" />
+    <Compile Include="Assets\Scripts\MenuDragger.cs" />
     <Compile Include="Assets\Scripts\MoneyController.cs" />
     <Compile Include="Assets\Scripts\PickAxe.cs" />
     <Compile Include="Assets\Scripts\SaveManager.cs" />

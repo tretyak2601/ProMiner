@@ -18,9 +18,7 @@ namespace TRGames.ProMiner.Gameplay
         Vector2 force;
         bool enable = true;
 
-        public event Action<GroundType> OnCubeDestroyed;
-        public event Action<KeyValuePair<int, (Ground, Vector3)>> OnXmlChange;
-
+        public event Action<GroundType, Vector2> OnCubeDestroyed;
 
         private void Awake()
         {
@@ -31,6 +29,23 @@ namespace TRGames.ProMiner.Gameplay
                 rigid.mass = 1;
             };
             StartCoroutine(ForceMovement());
+        }
+
+        private void Start()
+        {
+            if (!string.IsNullOrEmpty(PlayerPrefs.GetString("lastPositionX")))
+            {
+                transform.position = new Vector3(10, 10, 0);
+                return;
+            }
+            else
+            {
+                float x;
+                float y;
+                float.TryParse(PlayerPrefs.GetString("lastPositionX"), out x);
+                float.TryParse(PlayerPrefs.GetString("lastPositionY"), out y);
+                transform.position = new Vector3(x, y, 0);
+            }
         }
 
         private void DragHandler(Vector2 obj)
@@ -50,6 +65,8 @@ namespace TRGames.ProMiner.Gameplay
         {
             if (collision.gameObject.GetComponent<Ground>() != null)
             {
+                bool isDestroyed = false;
+
                 var g = collision.gameObject.GetComponent<Ground>();
                 g.HitCount++;
 
@@ -57,34 +74,42 @@ namespace TRGames.ProMiner.Gameplay
 
                 if (g.GroundType == GroundType.Default && g.HitCount == 2)
                 {
-                    OnCubeDestroyed?.Invoke(g.GroundType);
-                    OnXmlChange?.Invoke(g.listIndex);
+                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
                     g.Destroy();
+                    isDestroyed = true;
                 }
                 else if (g.GroundType == GroundType.Sand && g.HitCount == 1)
                 {
-                    OnCubeDestroyed?.Invoke(g.GroundType);
-                    OnXmlChange?.Invoke(g.listIndex);
+                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
                     g.Destroy();
+                    isDestroyed = true;
                 }
                 else if (g.GroundType == GroundType.Clay && g.HitCount == 2)
                 {
-                    OnCubeDestroyed?.Invoke(g.GroundType);
-                    OnXmlChange?.Invoke(g.listIndex);
+                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
                     g.Destroy();
+                    isDestroyed = true;
                 }
                 else if (g.GroundType == GroundType.Rock && g.HitCount == 3)
                 {
-                    OnCubeDestroyed?.Invoke(g.GroundType);
-                    OnXmlChange?.Invoke(g.listIndex);
+                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
                     g.Destroy();
+                    isDestroyed = true;
                 }
 
                 if (enable)
                 {
                     rigid.velocity = Vector2.zero;
                     Vector2 direction = transform.position - collision.gameObject.transform.position;
-                    rigid.AddForce(direction * jumpStrenght, ForceMode2D.Force);
+
+                    if (!isDestroyed)
+                        rigid.AddForce(direction * jumpStrenght, ForceMode2D.Force);
+                    else
+                    {
+                        rigid.AddForce(-direction * jumpStrenght, ForceMode2D.Force);
+                        rigid.transform.DOPunchRotation(new Vector3(0, 0, 360), 0.2f);
+                    }
+
                     enable = false;
                     StartCoroutine(Wait());
                 }

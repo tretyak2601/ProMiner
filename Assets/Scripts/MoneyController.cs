@@ -27,7 +27,7 @@ namespace TRGames.ProMiner.Gameplay
             axe.OnCubeDestroyed += CubeDestroyedHandler; 
         }
 
-        private void CubeDestroyedHandler(GroundType type)
+        private void CubeDestroyedHandler(GroundType type, Vector2 position)
         {
             MoneyCount++;
         }

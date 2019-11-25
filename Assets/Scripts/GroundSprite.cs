@@ -21,6 +21,7 @@ namespace TRGames.ProMiner.Gameplay
 
     public enum GroundType
     {
+        None,
         [Description("Default")]
         Default,
         [Description("Rock")]

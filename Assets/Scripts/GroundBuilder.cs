@@ -21,7 +21,9 @@ namespace TRGames.ProMiner.Gameplay
         [SerializeField] int startHeight;
 
         public event Action OnGroundBuilt;
-        public event Action OnGroundAdded;
+        public event Action<List<KeyValuePair<int, (Ground, Vector3)>>> OnGroundAdded;
+        public event Action OnSaveXML;
+
         public LinkedList<KeyValuePair<int, (Ground, Vector3)>> Grounds { get; private set; } = new LinkedList<KeyValuePair<int, (Ground, Vector3)>>();
         private List<Color32> colors = new List<Color32>();
         private List<Color32> usedColors = new List<Color32>();
@@ -46,13 +48,16 @@ namespace TRGames.ProMiner.Gameplay
             {
                 foreach (var d in data)
                 {
-                    var obj = Instantiate(groundPrefab, SerializeUtility.ToVector(d.position), Quaternion.identity, transform);
-                    obj.Init(d.indexI, SerializeUtility.ToColor(d.color), d.indexJ, this);
-                    Grounds.AddLast(new KeyValuePair<int, (Ground, Vector3)>(d.indexJ, (obj, obj.transform.position)));
-                    index++;
+                    if (d.position != null)
+                    {
+                        var obj = Instantiate(groundPrefab, SerializeUtility.ToVector(d.position), Quaternion.identity, transform);
+                        obj.Init(SerializeUtility.ToColor(d.color), this);
+                        Grounds.AddLast(new KeyValuePair<int, (Ground, Vector3)>(0, (obj, obj.transform.position)));
+                        index++;
 
-                    if (index % 500 == 0)
-                        yield return null;
+                        if (index % 500 == 0)
+                            yield return null;
+                    }
                 }
             }
             lastYPos = Grounds.Last.Value.Value.Item2.y - groundHeight;
@@ -88,11 +93,11 @@ namespace TRGames.ProMiner.Gameplay
             }
 
             EndCreating();
+            OnSaveXML?.Invoke();
         }
 
         void EndCreating()
         {
-            axe.transform.position += Vector3.right * (startWidth * groundWidth) / 2;
             axe.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             AddBorders();
 
@@ -133,6 +138,7 @@ namespace TRGames.ProMiner.Gameplay
             enableAdding = false;
             int colorLayers = startHeight / groundColors.Length;
             usedColors.Clear();
+            var list = new List<KeyValuePair<int, (Ground, Vector3)>>();
 
             for (int i = 0; i < startHeight; i++)
             {
@@ -146,7 +152,8 @@ namespace TRGames.ProMiner.Gameplay
                 {
                     Vector3 pos = (Vector3.zero + Vector3.right * groundWidth * j) + (Vector3.down * groundHeight * i) - Vector3.down * lastYPos;
                     var obj = Instantiate(groundPrefab, pos, Quaternion.identity, transform);
-                    obj.Init(i, color, j, this);
+                    obj.Init(color, this);
+                    list.Add(obj.listIndex);
                     Grounds.AddLast(new KeyValuePair<int, (Ground, Vector3)>(j, (obj, obj.transform.position)));
                 }
 
@@ -156,7 +163,7 @@ namespace TRGames.ProMiner.Gameplay
             //UnityEditor.StaticOcclusionCulling.GenerateInBackground();
             lastYPos = Grounds.Last.Value.Value.Item2.y - groundHeight;
             enableAdding = true;
-            OnGroundAdded?.Invoke();
+            OnGroundAdded?.Invoke(list);
         }
 
         private void AddBorders()
