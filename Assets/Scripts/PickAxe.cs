@@ -17,8 +17,7 @@ namespace TRGames.ProMiner.Gameplay
 
         Vector2 force;
         bool enable = true;
-
-        public event Action<GroundType, Vector2> OnCubeDestroyed;
+        bool rageMode = false;
 
         private void Awake()
         {
@@ -29,23 +28,6 @@ namespace TRGames.ProMiner.Gameplay
                 rigid.mass = 1;
             };
             StartCoroutine(ForceMovement());
-        }
-
-        private void Start()
-        {
-            if (!string.IsNullOrEmpty(PlayerPrefs.GetString("lastPositionX")))
-            {
-                transform.position = new Vector3(10, 10, 0);
-                return;
-            }
-            else
-            {
-                float x;
-                float y;
-                float.TryParse(PlayerPrefs.GetString("lastPositionX"), out x);
-                float.TryParse(PlayerPrefs.GetString("lastPositionY"), out y);
-                transform.position = new Vector3(x, y, 0);
-            }
         }
 
         private void DragHandler(Vector2 obj)
@@ -72,29 +54,33 @@ namespace TRGames.ProMiner.Gameplay
 
                 g.transform.DOScale(0.15f, 0.1f).OnComplete(() => g.transform.DOScale(0.1f, 0.1f));
 
-                if (g.GroundType == GroundType.Default && g.HitCount == 2)
+                if (rageMode)
                 {
-                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
                     g.Destroy();
                     isDestroyed = true;
                 }
-                else if (g.GroundType == GroundType.Sand && g.HitCount == 1)
+                else
                 {
-                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
-                    g.Destroy();
-                    isDestroyed = true;
-                }
-                else if (g.GroundType == GroundType.Clay && g.HitCount == 2)
-                {
-                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
-                    g.Destroy();
-                    isDestroyed = true;
-                }
-                else if (g.GroundType == GroundType.Rock && g.HitCount == 3)
-                {
-                    OnCubeDestroyed?.Invoke(g.GroundType, g.transform.position);
-                    g.Destroy();
-                    isDestroyed = true;
+                    if (g.GroundType == GroundType.Default && g.HitCount == 2)
+                    {
+                        g.Destroy();
+                        isDestroyed = true;
+                    }
+                    else if (g.GroundType == GroundType.Sand && g.HitCount == 1)
+                    {
+                        g.Destroy();
+                        isDestroyed = true;
+                    }
+                    else if (g.GroundType == GroundType.Clay && g.HitCount == 2)
+                    {
+                        g.Destroy();
+                        isDestroyed = true;
+                    }
+                    else if (g.GroundType == GroundType.Rock && g.HitCount == 3)
+                    {
+                        g.Destroy();
+                        isDestroyed = true;
+                    }
                 }
 
                 if (enable)
@@ -108,6 +94,12 @@ namespace TRGames.ProMiner.Gameplay
                     {
                         rigid.AddForce(-direction * jumpStrenght, ForceMode2D.Force);
                         rigid.transform.DOPunchRotation(new Vector3(0, 0, 360), 0.2f);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+                        Vibration.Vibrate(100);
+#elif UNITY_IOS && !UNITY_EDITOR
+                        Vibration.VibratePop();
+#endif
                     }
 
                     enable = false;

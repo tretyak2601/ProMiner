@@ -79,12 +79,29 @@
     <Compile Include="Assets\Scripts\InputController.cs" />
     <Compile Include="Assets\Scripts\LoadingManager.cs" />
     <Compile Include="Assets\Scripts\LomData.cs" />
-    <Compile Include="Assets\Scripts\MapController.cs" />
     <Compile Include="Assets\Scripts\MenuDragger.cs" />
-    <Compile Include="Assets\Scripts\MoneyController.cs" />
     <Compile Include="Assets\Scripts\PickAxe.cs" />
     <Compile Include="Assets\Scripts\SaveManager.cs" />
+    <Compile Include="Assets\Scripts\Vibration.cs" />
+    <Compile Include="Assets\Scripts\WaterSpawner.cs" />
+    <Compile Include="Assets\Water2D\Core\MetaballCameraEffect.cs" />
+    <Compile Include="Assets\Water2D\Core\MetaballParticleClass.cs" />
+    <Compile Include="Assets\Water2D\Core\Water2D_Spawner.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\Attributes.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\ButtonAttributeDrawer.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\FieldDescriptionAttributeDrawer.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\IncrementableAttribute.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\IncrementableAttributeDrawer.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\PopUpAttributeDrawer.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\SeparatorAttributeDrawer.cs" />
+    <Compile Include="Assets\Water2D\PropertyDrawers\TitleAttributeDrawer.cs" />
+    <Compile Include="Assets\Water2D\Scrpts\_SpawnExampleController.cs" />
+    <Compile Include="Assets\Water2D\Scrpts\MouseColliderController.cs" />
+    <Compile Include="Assets\Water2D\Scrpts\screenshot.cs" />
+    <None Include="Assets\Water2D\Shaders\Metaballs_Simple.shader" />
+    <None Include="Assets\Water2D\readme.txt" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Water2D\Shaders\BlurEffectConeTaps.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/1/Documents/ProMiner/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

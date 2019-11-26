@@ -13,40 +13,27 @@ namespace TRGames.ProMiner.Gameplay
 {
     public class SaveManager : MonoBehaviour
     {
+        [SerializeField] bool isFreeMode;
         [SerializeField] GroundBuilder gb;
         [SerializeField] PickAxe axe;
+        [SerializeField] LoadingManager loading;
 
         private static List<GroundData> savedData = new List<GroundData>();
         private static string path1;
-
-        Queue<Task> tasks = new Queue<Task>();
 
         private volatile bool isSaving = false;
 
         private void Start()
         {
-            axe.OnCubeDestroyed += OnCubeDestroyeHandler;
-            gb.OnSaveXML += XMLSave;
-            gb.OnGroundAdded += AddNode;
+            if (!isFreeMode)
+            {
+                axe.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+                loading.OffLoading();
+                return;
+            }
 
             path1 = Path.Combine(Application.persistentDataPath, "xml_grounds.xml");
             Load();
-        }
-
-        private void OnCubeDestroyeHandler(GroundType arg1, Vector2 position)
-        {
-            Task t = new Task(() => RemoveNode(position));
-
-            if (!isSaving)
-                t.Start();
-            else
-                tasks.Enqueue(t);
-        }
-
-        private void Update()
-        {
-            if (!isSaving && tasks.Count > 0)
-                tasks.Dequeue().Start();
         }
 
         private void Load()
@@ -76,98 +63,19 @@ namespace TRGames.ProMiner.Gameplay
                 savedData = new List<GroundData>();
 
                 foreach (var g in gb.Grounds)
-                    savedData.Add(new GroundData(g.Value.Item1, g.Value.Item2));
+                    savedData.Add(new GroundData(g.Key, g.Value));
 
                 ser.Serialize(fs, savedData);
                 Debug.LogAssertion("Successfuly xml serializated");
             }
         }
-
-        private void RemoveNode(Vector2 position)
-        {
-            isSaving = true;
-            XmlDocument doc = new XmlDocument();
-            doc.Load(path1);
-
-            XmlElement root = doc.DocumentElement;
-            XmlNodeList nodes = root.SelectNodes("//GroundData");
-
-            foreach (XmlNode node in nodes)
-            {
-
-                if (System.Math.Round(float.Parse(node["position"]["x"].InnerText.Replace('.', ',')), 3) == System.Math.Round(Convert.ToSingle((double)position.x), 3) &&
-                    System.Math.Round(float.Parse(node["position"]["y"].InnerText.Replace('.', ',')), 3) == System.Math.Round(Convert.ToSingle((double)position.y), 3))
-                {
-                    node.ParentNode.RemoveChild(node);
-                    doc.Save(path1);
-                    Debug.LogAssertion("REMOVED");
-                }
-            }
-
-            isSaving = false;
-        }
-
-        private void AddNode(List<KeyValuePair<int, (Ground, Vector3)>> list)
-        {
-            if (!File.Exists(path1))
-                return;
-
-            if (!isSaving)
-                Add(list);
-            else
-            {
-                Task t = new Task(() => Add(list));
-                tasks.Enqueue(t);
-            }
-        }
-
-        private void Add(List<KeyValuePair<int, (Ground, Vector3)>> list)
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(path1);
-
-            XmlElement root = doc.DocumentElement;
-            XmlNodeList nodes = root.SelectNodes("//ArrayOfGroundData");
-
-            foreach (var pair in list)
-            {
-                var gd = doc.CreateElement("GroundData");
-
-                var pos = doc.CreateElement("position");
-
-                var x = doc.CreateElement("x");
-                x.InnerText = pair.Value.Item2.x.ToString().Replace(',', '.');
-                var y = doc.CreateElement("y");
-                y.InnerText = pair.Value.Item2.y.ToString().Replace(',', '.');
-
-                pos.AppendChild(x);
-                pos.AppendChild(y);
-
-                var col = doc.CreateElement("color");
-
-                var r = doc.CreateElement("r");
-                r.InnerText = pair.Value.Item1.Color.r.ToString().Replace(',', '.');
-                var g = doc.CreateElement("g");
-                g.InnerText = pair.Value.Item1.Color.g.ToString().Replace(',', '.');
-                var b = doc.CreateElement("b");
-                b.InnerText = pair.Value.Item1.Color.b.ToString().Replace(',', '.');
-
-                col.AppendChild(r);
-                col.AppendChild(g);
-                col.AppendChild(b);
-
-                gd.AppendChild(pos);
-                gd.AppendChild(col);
-
-                root.AppendChild(gd);
-            }
-
-            doc.Save(path1);
-            Debug.LogAssertion("Successfuly added");
-        }
-
+        
         private void OnApplicationQuit()
         {
+            if (!isFreeMode)
+                return;
+
+            XMLSave();
             PlayerPrefs.SetString("lastPositionX", axe.transform.position.x.ToString());
             PlayerPrefs.SetString("lastPositionY", axe.transform.position.y.ToString());
             PlayerPrefs.Save();

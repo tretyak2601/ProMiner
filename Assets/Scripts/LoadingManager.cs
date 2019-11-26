@@ -9,7 +9,6 @@ namespace TRGames.ProMiner.Gameplay
     public class LoadingManager : MonoBehaviour
     {
         [SerializeField] Image backGround;
-        [SerializeField] GameObject map;
         [SerializeField] GroundBuilder gb;
 
         private void Awake()
@@ -17,11 +16,9 @@ namespace TRGames.ProMiner.Gameplay
             gb.OnGroundBuilt += OffLoading;
         }
 
-        private void OffLoading()
+        public void OffLoading()
         {
-            map.SetActive(true);
             backGround.gameObject.SetActive(false);
-
         }
     }
 }
