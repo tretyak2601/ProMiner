@@ -58,8 +58,7 @@ namespace TRGames.ProMiner.Gameplay
                     if (d.position != null)
                     {
                         var obj = Instantiate(groundPrefab, SerializeUtility.ToVector(d.position), Quaternion.identity, transform);
-                        obj.Init(this);
-                        obj.SetColor(SerializeUtility.ToColor(d.color));
+                        obj.Init(this, GroundType.Default);
                         Grounds.AddLast(new KeyValuePair<Ground, Vector3>(obj, obj.transform.position));
                         index++;
 
@@ -95,8 +94,7 @@ namespace TRGames.ProMiner.Gameplay
                 {
                     Vector3 pos = (Vector3.zero + Vector3.right * groundWidth * j) + (Vector3.down * groundHeight * i) - Vector3.down * lastYPos;
                     var obj = Instantiate(groundPrefab, pos, Quaternion.identity, transform);
-                    obj.Init(this);
-                    obj.SetColor(color);
+                    obj.Init(this, GroundType.Default);
                     list.Add(obj.listIndex);
                     Grounds.AddLast(new KeyValuePair<Ground, Vector3>(obj, obj.transform.position));
                 }

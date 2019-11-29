@@ -6,6 +6,7 @@ using TRGames.ProMiner.Gameplay;
 
 public class LevelEditor : EditorWindow
 {
+    GroundType groundType;
     GameObject parentObject;
     Ground groundPrefab;
 
@@ -25,8 +26,8 @@ public class LevelEditor : EditorWindow
     {
         width = EditorGUILayout.TextField("Width: ", width);
         height = EditorGUILayout.TextField("Height: ", height);
-        color = EditorGUILayout.ColorField("Color", color);
         groundPrefab = Resources.Load<Ground>("Ground");
+        groundType = (GroundType)EditorGUILayout.EnumPopup("Ground type", groundType);
 
         if (GUILayout.Button("Build"))
         {
@@ -39,15 +40,7 @@ public class LevelEditor : EditorWindow
                 Build();
             }
         }
-
-        if (GUILayout.Button("Colorize selectable"))
-        {
-            foreach (var obj in Selection.gameObjects)
-                obj.GetComponent<Ground>()?.SetColor(color);
-        }
     }
-
-    Color color;
 
     private void Build()
     {
@@ -60,7 +53,14 @@ public class LevelEditor : EditorWindow
             {
                 Vector3 pos = (Vector3.zero + Vector3.right * groundWidth * j) + (Vector3.down * groundHeight * i);
                 var obj = Instantiate(groundPrefab, pos, Quaternion.identity, parentObject.transform);
-                obj.Init(parentObject.GetComponent<GroundBuilder>());
+
+                if (i == 0 || j == 0 || i == Height - 1 || j == Width - 1)
+                { // BORDERS
+                    Debug.LogAssertion("NONE");
+                    obj.Init(parentObject.GetComponent<GroundBuilder>(), GroundType.None);
+                }
+                else
+                    obj.Init(parentObject.GetComponent<GroundBuilder>(), groundType);
 
                 if (obj != null)
                     parentObject.GetComponent<GroundBuilder>().Grounds.AddLast(new KeyValuePair<Ground, Vector3>(obj, obj.transform.position));

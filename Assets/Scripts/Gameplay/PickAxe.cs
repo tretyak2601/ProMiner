@@ -54,32 +54,20 @@ namespace TRGames.ProMiner.Gameplay
 
                 g.transform.DOScale(0.15f, 0.1f).OnComplete(() => g.transform.DOScale(0.1f, 0.1f));
 
-                if (rageMode)
+                if (g.GroundType != GroundType.None)
                 {
-                    g.Destroy();
-                    isDestroyed = true;
-                }
-                else
-                {
-                    if (g.GroundType == GroundType.Default && g.HitCount == 2)
+                    if (rageMode)
                     {
                         g.Destroy();
                         isDestroyed = true;
                     }
-                    else if (g.GroundType == GroundType.Sand && g.HitCount == 1)
+                    else
                     {
-                        g.Destroy();
-                        isDestroyed = true;
-                    }
-                    else if (g.GroundType == GroundType.Clay && g.HitCount == 2)
-                    {
-                        g.Destroy();
-                        isDestroyed = true;
-                    }
-                    else if (g.GroundType == GroundType.Rock && g.HitCount == 3)
-                    {
-                        g.Destroy();
-                        isDestroyed = true;
+                        if (g.HitCount == 2)
+                        {
+                            g.Destroy();
+                            isDestroyed = true;
+                        }
                     }
                 }
 

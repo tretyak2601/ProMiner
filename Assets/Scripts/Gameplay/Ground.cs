@@ -15,7 +15,7 @@ namespace TRGames.ProMiner.Gameplay
         [SerializeField] Collider2D coll;
 
         public LomData Lom { get { return lom; } }
-        public GroundType GroundType { get; private set; } = GroundType.Default;
+        public GroundType GroundType { get; private set; }
         public KeyValuePair<Ground, Vector3> listIndex { get; private set; }
         public Color Color { get; private set; }
 
@@ -46,53 +46,20 @@ namespace TRGames.ProMiner.Gameplay
                 gb = GroundBuilder.Instance;
         }
 
-        public void Init(GroundBuilder gb)
+        public void Init(GroundBuilder gb, GroundType type)
         {
             this.gb = gb;
-            GroundType type = GroundType.Default;
-
             int rand = Random.Range(0, 100);
 
-            if (rand == 1)
-                type = GroundType.Rock;
-            if (rand == 2)
-                type = GroundType.Sand;
-            if (rand == 3)
-                type = GroundType.Clay;
             if ((rand == 4 || rand == 5 || rand == 6 || rand == 7 || rand == 8))
             {
                 DestroyImmediate(this.gameObject, false);
                 return;
             }
-
-            switch (type)
-            {
-                case GroundType.Default:
-                    sprite.sprite = sprites.DefaultSprite;
-                    break;
-                case GroundType.Sand:
-                    sprite.sprite = sprites.SandSprite;
-                    break;
-                case GroundType.Rock:
-                    sprite.sprite = sprites.RockSprite;
-                    break;
-                case GroundType.Clay:
-                    sprite.sprite = sprites.ClaySprite;
-                    break;
-            }
+            sprite.sprite = sprites.GetSprite(type);
 
             GroundType = type;
             listIndex = new KeyValuePair<Ground, Vector3>(this, this.transform.position);
-        }
-
-        public void SetColor(Color color)
-        {
-            if (GroundType == GroundType.Default)
-            {
-                Color = color;
-                sprite.sprite = sprites.DefaultSprite;
-                sprite.color = color;
-            }
         }
 
         private void OnBecameVisible()
