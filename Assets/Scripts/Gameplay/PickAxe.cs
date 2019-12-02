@@ -8,6 +8,8 @@ namespace TRGames.ProMiner.Gameplay
 {
     public class PickAxe : MonoBehaviour
     {
+        public static PickAxe Instance;
+
         [SerializeField] float dragStrenght;
         [SerializeField] int jumpStrenght;
 
@@ -18,9 +20,46 @@ namespace TRGames.ProMiner.Gameplay
         Vector2 force;
         bool enable = true;
         bool rageMode = false;
+        bool canLostLife = true;
+
+        public event Action OnGameOver;
+        public event Action OnLifeLost;
+
+        int lifes = 5;
+        public int Lifes
+        {
+            get
+            {
+                return lifes;
+            }
+            set
+            {
+                if (!canLostLife)
+                    return;
+
+                if (lifes > value)
+                    StartCoroutine(LifeLostAnimation());
+
+                OnLifeLost?.Invoke();
+                lifes = value;
+
+                if (lifes <= 0)
+                {
+                    OnGameOver?.Invoke();
+                    rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+                }
+            }
+        }
 
         private void Awake()
         {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+
+            DontDestroyOnLoad(this);
+
             input.OnDragEvent += DragHandler;
             input.OnDragUp += () =>
             {
@@ -45,6 +84,16 @@ namespace TRGames.ProMiner.Gameplay
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (collision.gameObject.tag == "Metaball_liquid")
+            {
+                Destroy(collision.gameObject);
+
+                if (canLostLife)
+                    Lifes--;
+
+                return;
+            }
+
             if (collision.gameObject.GetComponent<Ground>() != null)
             {
                 bool isDestroyed = false;
@@ -53,8 +102,8 @@ namespace TRGames.ProMiner.Gameplay
                 g.HitCount++;
 
                 g.transform.DOScale(0.15f, 0.1f).OnComplete(() => g.transform.DOScale(0.1f, 0.1f));
-
-                if (g.GroundType != GroundType.None)
+                
+                if (g.gt != GroundType.None)
                 {
                     if (rageMode)
                     {
@@ -96,6 +145,7 @@ namespace TRGames.ProMiner.Gameplay
             }
         }
 
+
         IEnumerator Wait()
         {
             yield return new WaitForSeconds(0.1f);
@@ -109,6 +159,19 @@ namespace TRGames.ProMiner.Gameplay
                 rigid.AddForce(force, ForceMode2D.Impulse);
                 yield return new WaitForSeconds(Mathf.PI / 10);
             }
+        }
+
+        IEnumerator LifeLostAnimation()
+        {
+            canLostLife = false;
+            for (int i = 0; i < 5; i++)
+            {
+                sprite.enabled = false;
+                yield return new WaitForSeconds(0.33f);
+                sprite.enabled = true;
+                yield return new WaitForSeconds(0.33f);
+            }
+            canLostLife = true;
         }
     }
 }

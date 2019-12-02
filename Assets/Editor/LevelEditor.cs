@@ -9,6 +9,8 @@ public class LevelEditor : EditorWindow
     GroundType groundType;
     GameObject parentObject;
     Ground groundPrefab;
+    TNTController tnt;
+    bool addTNT;
 
     string width = default;
     string height = default;
@@ -28,6 +30,8 @@ public class LevelEditor : EditorWindow
         height = EditorGUILayout.TextField("Height: ", height);
         groundPrefab = Resources.Load<Ground>("Ground");
         groundType = (GroundType)EditorGUILayout.EnumPopup("Ground type", groundType);
+        addTNT = EditorGUILayout.Toggle("Add TNT", addTNT);
+        tnt = Resources.Load<TNTController>("tnt");
 
         if (GUILayout.Button("Build"))
         {
@@ -51,14 +55,19 @@ public class LevelEditor : EditorWindow
         {
             for (int j = 0; j < Width; j++)
             {
+                int random = Random.Range(0, 150);
                 Vector3 pos = (Vector3.zero + Vector3.right * groundWidth * j) + (Vector3.down * groundHeight * i);
-                var obj = Instantiate(groundPrefab, pos, Quaternion.identity, parentObject.transform);
+
+                if (random == 0 && addTNT)
+                {
+                    Instantiate(tnt, pos, Quaternion.identity, parentObject.transform);
+                    continue;
+                }
+
+                var obj = Instantiate(groundPrefab, pos, Quaternion.identity, parentObject.transform);                
 
                 if (i == 0 || j == 0 || i == Height - 1 || j == Width - 1)
-                { // BORDERS
-                    Debug.LogAssertion("NONE");
                     obj.Init(parentObject.GetComponent<GroundBuilder>(), GroundType.None);
-                }
                 else
                     obj.Init(parentObject.GetComponent<GroundBuilder>(), groundType);
 

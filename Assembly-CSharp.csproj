@@ -72,12 +72,14 @@
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraControll.cs" />
     <Compile Include="Assets\Scripts\Controllers\InputController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\LifesController.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Destroyer.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Ground.cs" />
     <Compile Include="Assets\Scripts\Gameplay\GroundBuilder.cs" />
     <Compile Include="Assets\Scripts\Gameplay\LoadingManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\PickAxe.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SaveManager.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\TNTController.cs" />
     <Compile Include="Assets\Scripts\Gameplay\WaterSpawner.cs" />
     <Compile Include="Assets\Scripts\Helpers\Vibration.cs" />
     <Compile Include="Assets\Scripts\LevelInitializer.cs" />

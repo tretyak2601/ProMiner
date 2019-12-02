@@ -14,8 +14,9 @@ namespace TRGames.ProMiner.Gameplay
         [SerializeField] LomData lom;
         [SerializeField] Collider2D coll;
 
+        [SerializeField] public GroundType gt;
+
         public LomData Lom { get { return lom; } }
-        public GroundType GroundType { get; private set; }
         public KeyValuePair<Ground, Vector3> listIndex { get; private set; }
         public Color Color { get; private set; }
 
@@ -56,9 +57,14 @@ namespace TRGames.ProMiner.Gameplay
                 DestroyImmediate(this.gameObject, false);
                 return;
             }
-            sprite.sprite = sprites.GetSprite(type);
 
-            GroundType = type;
+            if (type != GroundType.None)
+                sprite.sprite = sprites.GetSprite(type);
+            else
+                sprite.sprite = sprites.GetSprite(GroundType.Default);
+
+
+            gt = type;
             listIndex = new KeyValuePair<Ground, Vector3>(this, this.transform.position);
         }
 
