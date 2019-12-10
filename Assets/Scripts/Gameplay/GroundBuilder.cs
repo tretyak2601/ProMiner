@@ -92,7 +92,7 @@ namespace TRGames.ProMiner.Gameplay
             {
                 for (int j = 0; j < startWidth; j++)
                 {
-                    Vector3 pos = (Vector3.zero + Vector3.right * groundWidth * j) + (Vector3.down * groundHeight * i) - Vector3.down * lastYPos;
+                    Vector3 pos = (Vector3.zero + Vector3.right * groundPrefab.GetComponent<SpriteRenderer>().size.x * j) + (Vector3.down * groundPrefab.GetComponent<SpriteRenderer>().size.y * i) - Vector3.down * lastYPos;
                     var obj = Instantiate(groundPrefab, pos, Quaternion.identity, transform);
                     obj.Init(this, GroundType.Default);
                     list.Add(obj.listIndex);

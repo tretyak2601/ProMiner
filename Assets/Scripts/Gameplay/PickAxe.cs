@@ -16,6 +16,8 @@ namespace TRGames.ProMiner.Gameplay
         [SerializeField] Rigidbody2D rigid;
         [SerializeField] SpriteRenderer sprite;
         [SerializeField] InputController input;
+        [SerializeField] RageController rage;
+        [SerializeField] ParticleSystem sparks;
 
         Vector2 force;
         bool enable = true;
@@ -24,6 +26,7 @@ namespace TRGames.ProMiner.Gameplay
 
         public event Action OnGameOver;
         public event Action OnLifeLost;
+        public event Action OnDirtDestroyed;
 
         int lifes = 5;
         public int Lifes
@@ -94,6 +97,12 @@ namespace TRGames.ProMiner.Gameplay
                 return;
             }
 
+            if (collision.gameObject.tag == "Crystal")
+            {
+                collision.gameObject.GetComponent<Crystal>().Destroy();
+                return;
+            }
+
             if (collision.gameObject.GetComponent<Ground>() != null)
             {
                 bool isDestroyed = false;
@@ -101,11 +110,11 @@ namespace TRGames.ProMiner.Gameplay
                 var g = collision.gameObject.GetComponent<Ground>();
                 g.HitCount++;
 
-                g.transform.DOScale(0.15f, 0.1f).OnComplete(() => g.transform.DOScale(0.1f, 0.1f));
+                g.transform.DOScale(1.2f, 0.1f).OnComplete(() => g.transform.DOScale(1f, 0.1f));
                 
-                if (g.gt != GroundType.None)
+                if (!g.NotDestroyeble)
                 {
-                    if (rageMode)
+                    if (rage.IsRaged)
                     {
                         g.Destroy();
                         isDestroyed = true;
@@ -116,7 +125,10 @@ namespace TRGames.ProMiner.Gameplay
                         {
                             g.Destroy();
                             isDestroyed = true;
+                            OnDirtDestroyed?.Invoke();
                         }
+                        else
+                            Instantiate(sparks, transform.position, Quaternion.identity);
                     }
                 }
 

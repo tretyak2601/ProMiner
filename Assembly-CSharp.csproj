@@ -73,6 +73,8 @@
     <Compile Include="Assets\Scripts\Controllers\CameraControll.cs" />
     <Compile Include="Assets\Scripts\Controllers\InputController.cs" />
     <Compile Include="Assets\Scripts\Controllers\LifesController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\RageController.cs" />
+    <Compile Include="Assets\Scripts\Crystal.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Destroyer.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Ground.cs" />
     <Compile Include="Assets\Scripts\Gameplay\GroundBuilder.cs" />
@@ -83,6 +85,8 @@
     <Compile Include="Assets\Scripts\Gameplay\WaterSpawner.cs" />
     <Compile Include="Assets\Scripts\Helpers\Vibration.cs" />
     <Compile Include="Assets\Scripts\LevelInitializer.cs" />
+    <Compile Include="Assets\Scripts\RotateAnimation.cs" />
+    <Compile Include="Assets\Scripts\Scriptable\DimondsObject.cs" />
     <Compile Include="Assets\Scripts\Scriptable\GroundSprite.cs" />
     <Compile Include="Assets\Scripts\Scriptable\LomData.cs" />
     <Compile Include="Assets\Scripts\UI\BottomPanel.cs" />

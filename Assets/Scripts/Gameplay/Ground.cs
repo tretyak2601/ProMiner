@@ -6,21 +6,29 @@ using Random = UnityEngine.Random;
 
 namespace TRGames.ProMiner.Gameplay
 {
+    [RequireComponent(typeof(Collider2D))]
     public class Ground : MonoBehaviour
     {
         [SerializeField] ParticleSystem destroyParticles;
         [SerializeField] SpriteRenderer sprite;
         [SerializeField] GroundSprite sprites;
         [SerializeField] LomData lom;
-        [SerializeField] Collider2D coll;
 
         [SerializeField] public GroundType gt;
 
+        Collider2D coll;
         public LomData Lom { get { return lom; } }
         public KeyValuePair<Ground, Vector3> listIndex { get; private set; }
         public Color Color { get; private set; }
 
         GroundBuilder gb;
+
+        public bool NotDestroyeble = false;
+
+        private void Awake()
+        {
+            coll = GetComponent<Collider2D>();
+        }
 
         int hitCount = default;
         public int HitCount
@@ -47,8 +55,9 @@ namespace TRGames.ProMiner.Gameplay
                 gb = GroundBuilder.Instance;
         }
 
-        public void Init(GroundBuilder gb, GroundType type)
+        public void Init(GroundBuilder gb, GroundType type, bool notDestroyeble = false)
         {
+            NotDestroyeble = notDestroyeble;
             this.gb = gb;
             int rand = Random.Range(0, 100);
 
@@ -58,30 +67,17 @@ namespace TRGames.ProMiner.Gameplay
                 return;
             }
 
-            if (type != GroundType.None)
-                sprite.sprite = sprites.GetSprite(type);
-            else
-                sprite.sprite = sprites.GetSprite(GroundType.Default);
-
+            sprite.sprite = sprites.GetSprite(type);
 
             gt = type;
             listIndex = new KeyValuePair<Ground, Vector3>(this, this.transform.position);
-        }
-
-        private void OnBecameVisible()
-        {
-            coll.enabled = true;
-        }
-
-        private void OnBecameInvisible()
-        {
-            coll.enabled = false;
         }
 
         public void Destroy()
         {
             var part = Instantiate(destroyParticles, transform.position, Quaternion.identity);
             var main = part.main;
+
             main.startColor = sprite.color;
             gb.Grounds.Remove(listIndex);
             GameObject.Destroy(this.gameObject);

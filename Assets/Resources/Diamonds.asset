@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905d2b35bf51f4945a5387134b286e27, type: 3}
+  m_Name: Diamonds
+  m_EditorClassIdentifier: 
+  crystals:
+  - {fileID: 737071755449720979, guid: 4658e6ab14326634398db9cf5386b6ff, type: 3}
+  - {fileID: 2345024405207898101, guid: 5484608423bd65646b12b7574fc76aea, type: 3}
+  - {fileID: 7982426916728707214, guid: ee709eaf8217db64fb3e488a995ff569, type: 3}
+  - {fileID: 158646768550846029, guid: 4fb696620e67f8e4180a0c3ad45f76aa, type: 3}
