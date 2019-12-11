@@ -38,8 +38,6 @@ namespace TRGames.ProMiner.Gameplay
                 Instance = this;
                 DontDestroyOnLoad(this);
             }
-            else
-                Destroy(this.gameObject);
         }
 
         public void CreateEmpty()
