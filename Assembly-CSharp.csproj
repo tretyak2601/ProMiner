@@ -72,14 +72,17 @@
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraControll.cs" />
     <Compile Include="Assets\Scripts\Controllers\InputController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\LifesController.cs" />
     <Compile Include="Assets\Scripts\Controllers\RageController.cs" />
     <Compile Include="Assets\Scripts\Crystal.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Destroyer.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\FireshootPowerUp.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Ground.cs" />
     <Compile Include="Assets\Scripts\Gameplay\GroundBuilder.cs" />
     <Compile Include="Assets\Scripts\Gameplay\LoadingManager.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\MultiplayPowerUp.cs" />
     <Compile Include="Assets\Scripts\Gameplay\PickAxe.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\PickAxeClone.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\PowerUp.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SaveManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\TNTController.cs" />
     <Compile Include="Assets\Scripts\Gameplay\WaterSpawner.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Assets\Scripts\Scriptable\DimondsObject.cs" />
     <Compile Include="Assets\Scripts\Scriptable\GroundSprite.cs" />
     <Compile Include="Assets\Scripts\Scriptable\LomData.cs" />
+    <Compile Include="Assets\Scripts\Scriptable\PowerUpsScriptable.cs" />
     <Compile Include="Assets\Scripts\UI\BottomPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MenuDragger.cs" />
     <Compile Include="Assets\Water2D\Core\MetaballCameraEffect.cs" />
@@ -106,7 +110,6 @@
     <Compile Include="Assets\Water2D\Scrpts\MouseColliderController.cs" />
     <Compile Include="Assets\Water2D\Scrpts\screenshot.cs" />
     <None Include="Assets\Water2D\Shaders\Metaballs_Simple.shader" />
-    <None Include="Assets\Water2D\readme.txt" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
     <None Include="Assets\Water2D\Shaders\BlurEffectConeTaps.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">

@@ -12,6 +12,7 @@ public class LevelEditor : EditorWindow
     TNTController tnt;
     bool addTNT;
     DimondsObject diamonds;
+    PowerUpsScriptable powerUps;
 
     string width = default;
     string height = default;
@@ -32,6 +33,7 @@ public class LevelEditor : EditorWindow
         tnt = Resources.Load<TNTController>("tnt");
         groundPrefab = Resources.Load<Ground>("Ground");
         diamonds = Resources.Load<DimondsObject>("Diamonds");
+        powerUps = Resources.Load<PowerUpsScriptable>("PowerUps");
 
         if (GUILayout.Button("Build"))
         {
@@ -55,7 +57,7 @@ public class LevelEditor : EditorWindow
         {
             for (int j = 0; j < Width; j++)
             {
-                int random = Random.Range(0, 100);
+                int random = Random.Range(0, 200);
                 Vector3 pos = (Vector3.zero + Vector3.right * groundPrefab.GetComponent<SpriteRenderer>().size.x / 6 * j) + (Vector3.down * groundPrefab.GetComponent<SpriteRenderer>().size.y / 6 * i);
 
                 if (random == 0 && addTNT)
@@ -66,6 +68,11 @@ public class LevelEditor : EditorWindow
                 else if (random == 1)
                 {
                     Instantiate(diamonds.crystals[Random.Range(0, diamonds.crystals.Length)], pos, Quaternion.identity, parentObject.transform);
+                    continue;
+                }
+                else if(random == 2)
+                {
+                    Instantiate(powerUps.PowerUps[Random.Range(0, powerUps.PowerUps.Length)], pos, Quaternion.identity, parentObject.transform);
                     continue;
                 }
 

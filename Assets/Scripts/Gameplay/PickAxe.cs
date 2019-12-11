@@ -11,7 +11,7 @@ namespace TRGames.ProMiner.Gameplay
         public static PickAxe Instance;
 
         [SerializeField] float dragStrenght;
-        [SerializeField] int jumpStrenght;
+        [SerializeField] public int jumpStrenght;
 
         [SerializeField] Rigidbody2D rigid;
         [SerializeField] SpriteRenderer sprite;
@@ -22,37 +22,10 @@ namespace TRGames.ProMiner.Gameplay
         Vector2 force;
         bool enable = true;
         bool rageMode = false;
-        bool canLostLife = true;
 
         public event Action OnGameOver;
         public event Action OnLifeLost;
         public event Action OnDirtDestroyed;
-
-        int lifes = 5;
-        public int Lifes
-        {
-            get
-            {
-                return lifes;
-            }
-            set
-            {
-                if (!canLostLife)
-                    return;
-
-                if (lifes > value)
-                    StartCoroutine(LifeLostAnimation());
-
-                OnLifeLost?.Invoke();
-                lifes = value;
-
-                if (lifes <= 0)
-                {
-                    OnGameOver?.Invoke();
-                    rigid.constraints = RigidbodyConstraints2D.FreezeAll;
-                }
-            }
-        }
 
         private void Awake()
         {
@@ -90,10 +63,6 @@ namespace TRGames.ProMiner.Gameplay
             if (collision.gameObject.tag == "Metaball_liquid")
             {
                 Destroy(collision.gameObject);
-
-                if (canLostLife)
-                    Lifes--;
-
                 return;
             }
 
@@ -171,19 +140,6 @@ namespace TRGames.ProMiner.Gameplay
                 rigid.AddForce(force, ForceMode2D.Impulse);
                 yield return new WaitForSeconds(Mathf.PI / 10);
             }
-        }
-
-        IEnumerator LifeLostAnimation()
-        {
-            canLostLife = false;
-            for (int i = 0; i < 5; i++)
-            {
-                sprite.enabled = false;
-                yield return new WaitForSeconds(0.33f);
-                sprite.enabled = true;
-                yield return new WaitForSeconds(0.33f);
-            }
-            canLostLife = true;
         }
     }
 }
