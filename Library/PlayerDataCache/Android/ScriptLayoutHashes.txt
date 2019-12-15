@@ -87,6 +87,8 @@ fc108ce7d98c40ac0907e8ca7f500c76 UnityEngine.UI.dll:UnityEngine.UI.Text
 abf1930d8126d0b2e00e9449129a0190 UnityEngine.UI.dll:UnityEngine.EventSystems.TouchInputModule
 64e54c0cbb0177c5ea26f340efb9ff85 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
 10a9b2b73deb944774e6089c13677da1 Assembly-CSharp.dll:.WaterSpawner
+59c7e3f243944ad80dadbe17e3c85825 Assembly-CSharp.dll:.Timer
+71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.Background
 71bb6a6b6c8f052f948db64c7dd3ca4f UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 06f0fef534ca4c1d6064fd77a26bf722 UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
 780e8f682b3221346c034a6712a0fd25 UnityEngine.Timeline.dll:UnityEngine.Timeline.AnimationPlayableAsset
@@ -177,6 +179,7 @@ fb6a1ea36b4f6ef5948d283d93760765 UnityEngine.GoogleAudioSpatializer.dll:UnityEng
 6742825470a87c9d371dfe9c740333a5 Assembly-CSharp.dll:.Crystal
 b6e789536556bd60f672f9785660e71d Assembly-CSharp.dll:.FireshootPowerUp
 a4f0a4f62100f1a4fb5cbe0e00dde83f Unity.TextMeshPro.dll:TMPro.TextMeshProUGUI
+88a22823d902848e10c1fc81ad318d88 Assembly-CSharp.dll:.WetText
 5fc094978ce3e3591a7500ed380d854a Unity.Analytics.DataPrivacy.dll:UnityEngine.Analytics.DataPrivacyButton
 d251bf88db6c95a6b1aa0b69298da9ef UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 25ee264a3ba8b289e4d9e6fa740920a4 Assembly-CSharp.dll:TRGames.ProMiner.Gameplay.RageController
@@ -191,5 +194,3 @@ c6666661329916e218bee7f5e79e60f5 Unity.TextMeshPro.dll:TMPro.TextMeshPro
 8649814970b42d345b89944b862453cc Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
 1c4fc1899ec08d9c5aa2bfde0221a4fb Assembly-CSharp.dll:Water2D.Water2D_Spawner
 1e49215df0e527cbdac238dd84fec26c Assembly-CSharp.dll:.PoweUpElement
-88a22823d902848e10c1fc81ad318d88 Assembly-CSharp.dll:.WetText
-71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.Timer

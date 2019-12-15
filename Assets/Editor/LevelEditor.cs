@@ -65,18 +65,26 @@ public class LevelEditor : EditorWindow
                     Instantiate(tnt, pos, Quaternion.identity, parentObject.transform);
                     continue;
                 }
-                else if (random == 1)
+                else if (random == 1 || random == 14)
                 {
                     Instantiate(diamonds.crystals[Random.Range(0, diamonds.crystals.Length)], pos, Quaternion.identity, parentObject.transform);
                     continue;
                 }
-                else if(random == 2)
+                else if (random == 2 || random == 16)
                 {
                     Instantiate(powerUps.PowerUps[Random.Range(0, powerUps.PowerUps.Length)], pos, Quaternion.identity, parentObject.transform);
                     continue;
                 }
+                else if (random == 3 || random == 4 || random == 5 ||
+                    random == 6 || random == 7 || random == 8 || random == 9 ||
+                    random == 10 || random == 11 || random == 12 || random == 13)
+                {
+                    if (!(i == 0 || j == 0 || i == Height - 1 || j == Width - 1))
+                        continue;
+                }
 
-                var obj = Instantiate(groundPrefab, pos, Quaternion.identity, parentObject.transform);                
+
+                var obj = Instantiate(groundPrefab, pos, Quaternion.identity, parentObject.transform);
 
                 if (i == 0 || j == 0 || i == Height - 1 || j == Width - 1)
                     obj.Init(parentObject.GetComponent<GroundBuilder>(), groundType, true);

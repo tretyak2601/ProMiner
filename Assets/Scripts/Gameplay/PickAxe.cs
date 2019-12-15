@@ -31,6 +31,9 @@ namespace TRGames.ProMiner.Gameplay
 
         public float CurrentSpeed = 1;
 
+        float waitTime = 0;
+        Coroutine waitCour;
+
         private void Awake()
         {
             if (Instance == null)
@@ -67,8 +70,14 @@ namespace TRGames.ProMiner.Gameplay
             if (collision.gameObject.tag == "Metaball_liquid")
             {
                 CurrentSpeed = 0;
-                StartCoroutine(WaitSpeed());
+                waitTime = 5;
                 Destroy(collision.gameObject);
+
+                if (waitCour != null)
+                    return;
+
+                waitCour = StartCoroutine(WaitSpeed());
+
                 drops.gameObject.SetActive(true);
                 OnDropsStateChanged?.Invoke(true);
                 return;
@@ -136,10 +145,17 @@ namespace TRGames.ProMiner.Gameplay
 
         IEnumerator WaitSpeed()
         {
-            yield return new WaitForSeconds(2);
+            while (waitTime > 0)
+            {
+                yield return null;
+                waitTime -= 0.1f;
+            }
+
+            waitTime = 0;
             CurrentSpeed = 1;
             drops.gameObject.SetActive(false);
             OnDropsStateChanged?.Invoke(false);
+            waitCour = null;
         }
 
         IEnumerator Wait()

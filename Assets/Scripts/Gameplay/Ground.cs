@@ -59,16 +59,7 @@ namespace TRGames.ProMiner.Gameplay
         {
             NotDestroyeble = notDestroyeble;
             this.gb = gb;
-            int rand = Random.Range(0, 100);
-
-            if ((rand == 4 || rand == 5 || rand == 6 || rand == 7 || rand == 8))
-            {
-                DestroyImmediate(this.gameObject, false);
-                return;
-            }
-
             sprite.sprite = sprites.GetSprite(type);
-
             gt = type;
             listIndex = new KeyValuePair<Ground, Vector3>(this, this.transform.position);
         }

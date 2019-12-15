@@ -16,7 +16,7 @@ namespace TRGames.ProMiner.Gameplay
 
                 foreach (var o in objects)
                 {
-                    if (o.GetComponent<Ground>() && o.GetComponent<Ground>().gt != GroundType.None)
+                    if (o.GetComponent<Ground>() && !o.GetComponent<Ground>().NotDestroyeble)
                         o.GetComponent<Ground>().Destroy();
                     else if (o.GetComponent<TNTController>())
                         o.GetComponent<TNTController>().Destroy();
