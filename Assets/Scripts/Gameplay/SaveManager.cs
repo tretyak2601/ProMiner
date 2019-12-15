@@ -49,8 +49,6 @@ namespace TRGames.ProMiner.Gameplay
 
                 StartCoroutine(gb.Create(savedData));
             }
-            else
-                gb.CreateEmpty();
         }
 
         private void XMLSave()

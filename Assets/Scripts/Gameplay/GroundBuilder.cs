@@ -19,8 +19,6 @@ namespace TRGames.ProMiner.Gameplay
         [SerializeField] int startHeight;
 
         public event Action OnGroundBuilt;
-        public event Action<List<KeyValuePair<Ground, Vector3>>> OnGroundAdded;
-        public event Action OnSaveXML;
 
         public LinkedList<KeyValuePair<Ground, Vector3>> Grounds = new LinkedList<KeyValuePair<Ground, Vector3>>();
 
@@ -38,11 +36,6 @@ namespace TRGames.ProMiner.Gameplay
                 Instance = this;
                 DontDestroyOnLoad(this);
             }
-        }
-
-        public void CreateEmpty()
-        {
-
         }
 
         public IEnumerator Create(List<GroundData> data)
@@ -71,14 +64,10 @@ namespace TRGames.ProMiner.Gameplay
 
         void EndCreating()
         {
-            //axe.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-
             foreach (var g in Grounds)
                 g.Key.gameObject.isStatic = true;
 
             OnGroundBuilt?.Invoke();
-
-            //StartCoroutine(CheckGroundHeight());
         }
 
         IEnumerator AddNewGround()
@@ -103,18 +92,6 @@ namespace TRGames.ProMiner.Gameplay
             //UnityEditor.StaticOcclusionCulling.GenerateInBackground();
             lastYPos = Grounds.Last.Value.Value.y - groundHeight;
             enableAdding = true;
-            OnGroundAdded?.Invoke(list);
         }
     }
-
-    //IEnumerator CheckGroundHeight()
-    //{
-    //    while (true)
-    //    {
-    //        if (enableAdding && axe.transform.position.y < lastYPos + ((startHeight * groundHeight) / 1.3))
-    //            StartCoroutine(AddNewGround());
-
-    //        yield return new WaitForSeconds(1);
-    //    }
-    //}
 }

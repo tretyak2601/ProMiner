@@ -94,8 +94,13 @@
     <Compile Include="Assets\Scripts\Scriptable\GroundSprite.cs" />
     <Compile Include="Assets\Scripts\Scriptable\LomData.cs" />
     <Compile Include="Assets\Scripts\Scriptable\PowerUpsScriptable.cs" />
+    <Compile Include="Assets\Scripts\UI\Background.cs" />
     <Compile Include="Assets\Scripts\UI\BottomPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MenuDragger.cs" />
+    <Compile Include="Assets\Scripts\UI\PowerUpMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\PoweUpElement.cs" />
+    <Compile Include="Assets\Scripts\UI\Timer.cs" />
+    <Compile Include="Assets\Scripts\UI\WetText.cs" />
     <Compile Include="Assets\Water2D\Core\MetaballCameraEffect.cs" />
     <Compile Include="Assets\Water2D\Core\MetaballParticleClass.cs" />
     <Compile Include="Assets\Water2D\Core\Water2D_Spawner.cs" />

@@ -18,6 +18,7 @@ namespace TRGames.ProMiner.Gameplay
         [SerializeField] InputController input;
         [SerializeField] RageController rage;
         [SerializeField] ParticleSystem sparks;
+        [SerializeField] ParticleSystem drops;
 
         Vector2 force;
         bool enable = true;
@@ -26,6 +27,9 @@ namespace TRGames.ProMiner.Gameplay
         public event Action OnGameOver;
         public event Action OnLifeLost;
         public event Action OnDirtDestroyed;
+        public event Action<bool> OnDropsStateChanged;
+
+        public float CurrentSpeed = 1;
 
         private void Awake()
         {
@@ -62,7 +66,11 @@ namespace TRGames.ProMiner.Gameplay
         {
             if (collision.gameObject.tag == "Metaball_liquid")
             {
+                CurrentSpeed = 0;
+                StartCoroutine(WaitSpeed());
                 Destroy(collision.gameObject);
+                drops.gameObject.SetActive(true);
+                OnDropsStateChanged?.Invoke(true);
                 return;
             }
 
@@ -126,6 +134,13 @@ namespace TRGames.ProMiner.Gameplay
             }
         }
 
+        IEnumerator WaitSpeed()
+        {
+            yield return new WaitForSeconds(2);
+            CurrentSpeed = 1;
+            drops.gameObject.SetActive(false);
+            OnDropsStateChanged?.Invoke(false);
+        }
 
         IEnumerator Wait()
         {
@@ -137,7 +152,7 @@ namespace TRGames.ProMiner.Gameplay
         {
             while (true)
             {
-                rigid.AddForce(force, ForceMode2D.Impulse);
+                rigid.AddForce(force * CurrentSpeed, ForceMode2D.Impulse);
                 yield return new WaitForSeconds(Mathf.PI / 10);
             }
         }
